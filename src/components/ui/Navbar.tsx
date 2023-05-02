@@ -52,6 +52,10 @@ const Navbar = () => {
   let [isRepresentative, setIsRepresentative] = useState(false)
   let [isPartner, setIsPartner] = useState(false)
 
+  let [isTrainee, setIsTrainee] = useState(false)
+  let [isHR, setIsHR] = useState(false)
+  let [isDev, setIsDev] = useState(false)
+
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -62,6 +66,7 @@ const Navbar = () => {
         location.href = "/signin"
       }
       const me = await API.me(token);
+      me.roles[0] = 'hr'
       if (me.roles.includes("sportsman")) {
         setIsSportsman(true)
       }
@@ -73,6 +78,16 @@ const Navbar = () => {
       }
       if (me.roles.includes("partner")) {
         setIsPartner(true)
+      }
+
+      if (me.roles.includes('trainee')) {
+        setIsTrainee(true)
+      }
+      if (me.roles.includes('hr')) {
+        setIsHR(true)
+      }
+      if (me.roles.includes('dev')) {
+        setIsDev(true)
       }
     })();
     return () => {
@@ -104,30 +119,35 @@ const Navbar = () => {
   return (
     <AppBar position="sticky" sx={{background: "#FFFFFF"}}>
       <StyledToolbar> 
-      <img width={100} src="logo.png" alt="Picture of the author" />
+      <Typography color={"black"}>Золотой Телёнок</Typography>
+      {/* <img width={100} src="logo.png" alt="Picture of the author" /> */}
         <Box sx={{display: 'flex', alignItems: 'center',  gap: '7px'}}>
           
         {/* <Search>
           <InputBase placeholder="search..." />
         </Search> */}
-          <a href="/events"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Мероприятия</Button></a>
-          <a href="/users"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Пользователи</Button></a>
-          {
+          {/* <a href="/events"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Мероприятия</Button></a>
+          <a href="/users"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Пользователи</Button></a> */}
+          {/* {
             isAdmin ? <a href="/all_notify"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Рассылка</Button></a> : <></>
-          },
+          }, */}
           {
-            isAdmin ? <a href="/bids"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Заявки на мероприятия</Button></a> : <></>
+            isTrainee ? <a href="/profile"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Резюме</Button></a> : <></>
           }
           {
+            isHR ? <a href="/bids"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Заявки</Button></a> : <></>
+          }
+          {/* {
             isAdmin ? <a href="/feedbacks"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Отзывы</Button></a> : <></>
-          }
-          {
+          } */}
+          {/* {
             (isRepresentative || isPartner) ? <a href="create_bid"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Подать заявку</Button></a> : <></>
-          }
+          } */}
         </Box>
         <Box sx={{display: 'flex', gap: '4px', alignItems: 'center'}}>
-          <Typography sx={{color: 'black'}}>Роль: {isSportsman ? "Спортсмен" : isAdmin? "Администратор" : isRepresentative ? "Представитель" : isPartner ? "Партнёр" : ""}</Typography>
-          <a href='/profile'><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Профиль</Button></a>
+          {/* <Typography sx={{color: 'black'}}>Роль: {isSportsman ? "Спортсмен" : isAdmin? "Администратор" : isRepresentative ? "Представитель" : isPartner ? "Партнёр" : ""}</Typography> */}
+          <Typography sx={{color: 'black'}}>Роль: {isTrainee ? "Стажёр" : isHR? "HR" : isDev ? "Администратор" : ""}</Typography>
+          {/* <a href='/profile'><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Профиль</Button></a> */}
           <Button onClick={() => {localStorage.removeItem('token'); location.href = "/signin"}} sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Выйти</Button>
         </Box>  
       </StyledToolbar>

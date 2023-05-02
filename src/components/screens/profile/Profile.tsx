@@ -39,6 +39,15 @@ export default function Layout() {
     const [tgusername, setTgusername]: any = useState("");
     const [saveText, setSaveText]: any = useState("Сохранить");
     const [desc, setDesc]: any = useState("");
+
+    const [mail, setMail]: any = useState("");
+    const [role, setRole]: any = useState("");
+    const [salary, setSalary]: any = useState(0);
+    const [remoteRadio, setRemoteRadio]: any = useState(0);
+    const [workYear, setWorkYear]: any = useState(0);
+    const [experienceLevel, setExperienceLevel]: any = useState("");
+    const [employmentType, setEmploymentType]: any = useState("");
+    const [jobTitle, setJobTitle]: any = useState("");
     
 
     const theme = createTheme(themeDict[mode]) 
@@ -50,10 +59,20 @@ export default function Layout() {
           if (token) {
             const me = await API.me(token);
             console.log(me)
+
             setFio(me.fullname || "");
             setBirth(me.birth_dt || "");
             setTgusername(me.tg_username || "");
             setDesc(me.description || "");
+
+            setMail(me.mail || "")
+            setRole(me.roles[0] || "")
+            setSalary(me.salary || 0)
+            setRemoteRadio(me.remote_radio || 0)
+            setWorkYear(me.work_year || 0)
+            setExperienceLevel(me.experience_level || "")
+            setEmploymentType(me.employment_type || "")
+            setJobTitle(me.job_title || "")
           }
         })();
         return () => {
@@ -79,42 +98,68 @@ export default function Layout() {
             <Card>
                 <Box p={5}>
                     <Typography variant="h4" component="h4" align='center' marginBottom={3}>
-                        Профиль
+                        Резюме
                     </Typography>
                     <TextField
                         fullWidth
-                        id="tf-fio"
-                        label="ФИО"
-                        value={fio}
-                        onChange={e => setFio(e.target.value)}
-                        sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
-                    />
-                    <br /><br />
-                    {/* <TextField
-                        fullWidth
-                        id="tf-birth"
-                        label="Дата рождения (ДД-ММ-ГГГГ)"
-                        value={birth}
-                        onChange={e => setBirth(e.target.value)}
-                        sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
-                    />
-                    <br /><br /> */}
-                    <TextField
-                        fullWidth
-                        id="tf-tgusername"
-                        label="Telegram (без @)"
-                        value={tgusername}
-                        onChange={e => setTgusername(e.target.value)}
+                        id="tf-mail"
+                        label="Email"
+                        value={mail}
+                        onChange={e => setMail(e.target.value)}
                         sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
                     />
                     <br /><br />
                     <TextField
                         fullWidth
-                        multiline
-                        id="tf-desc"
-                        label="Описание"
-                        value={desc}
-                        onChange={e => setDesc(e.target.value)}
+                        id="tf-salary"
+                        label="Зарплата"
+                        value={salary}
+                        onChange={e => setSalary(e.target.value)}
+                        sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
+                    />
+                    <br /><br />
+                    <TextField
+                        fullWidth
+                        id="tf-remoteRadio"
+                        label="Процент на удалённой работе"
+                        value={remoteRadio}
+                        onChange={e => setRemoteRadio(e.target.value)}
+                        sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
+                    />
+                    <br /><br />
+                    <TextField
+                        fullWidth
+                        id="tf-workYear"
+                        label="Количество лет работы"
+                        value={workYear}
+                        onChange={e => setWorkYear(e.target.value)}
+                        sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
+                    />
+                    <br /><br />
+                    <TextField
+                        fullWidth
+                        id="tf-experienceLevel"
+                        label="Уровень"
+                        value={experienceLevel}
+                        onChange={e => setExperienceLevel(e.target.value)}
+                        sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
+                    />
+                    <br /><br />
+                    <TextField
+                        fullWidth
+                        id="tf-employmentType"
+                        label="Вид занятости"
+                        value={employmentType}
+                        onChange={e => setEmploymentType(e.target.value)}
+                        sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
+                    />
+                    <br /><br />
+                    <TextField
+                        fullWidth
+                        id="tf-jobTitle"
+                        label="Профессия"
+                        value={jobTitle}
+                        onChange={e => setJobTitle(e.target.value)}
                         sx={{ '& label': { paddingLeft: (theme) => theme.spacing(2), }, '& input': { paddingLeft: (theme) => theme.spacing(3.5), }, '& fieldset': { paddingLeft: (theme) => theme.spacing(2.5), borderRadius: '15px', color: '#000' }, }}
                     />
                     <br /><br />
