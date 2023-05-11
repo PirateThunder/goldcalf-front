@@ -6,7 +6,7 @@ export default function Page404() {
 
     React.useEffect(() => {
         if (localStorage.getItem("token")) {
-            router.push('/events')
+            router.push('/')
         } else {
             router.push('/signin')
         }

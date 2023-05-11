@@ -69,10 +69,12 @@ export default function Bid() {
           let token = localStorage.getItem('token')
           console.log(token)
           if (token) {
-            const me = await API.me(token);
-            const id = me.int_id
-            console.log(id)
-            setBids( await API.event_getAllRequestsToCreateEvent(token) )
+            // const me = await API.me(token);
+            // const id = me.int_id
+            // console.log(id)
+            // setBids( await API.event_getAllRequestsToCreateEvent(token) )
+            const bids = API.getRequests(token)
+            console.log(bids)
           }
         })();
         return () => {
@@ -105,7 +107,7 @@ export default function Bid() {
                         Заявки на мероприятия
                     </Typography>
                     <Box sx={gridContainer}>
-                        {bids.map(ev => <Box key={ev.int_id} sx={gridItem}>
+                        {/* {bids.map(ev => <Box key={ev.int_id} sx={gridItem}>
                             <Card
                                 raised
                                 sx={{
@@ -121,7 +123,7 @@ export default function Bid() {
 
                                 <Button data-id={ev.int_id} onClick={e => handleBid(e)} sx={{margin: '2px', height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#574BCC', color: '#FFFFFF', '&:hover': {background: '#FFFFFF', color: '#574BCC'}}} fullWidth variant="contained" color="primary">Принять заявку</Button>
                             </Card>
-                        </Box>)}
+                        </Box>)} */}
                     </Box>
                     {/* <TextField
                         fullWidth

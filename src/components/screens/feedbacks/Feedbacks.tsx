@@ -33,7 +33,9 @@ export default function Layout() {
     const [mode, setMode] = useState("theme1");
     const theme = createTheme(themeDict[mode])  
     const [value, setValue] = React.useState<number | null>(0);
+    // const [token, _]
 
+    //const [feedbacks, setFeedbacks] = useState<any[]>([])
     const [feedbacks, setFeedbacks] = useState<any[]>([])
     React.useEffect(() => {
         (async () => {
@@ -45,8 +47,10 @@ export default function Layout() {
             // const me = await API.me(token);
             // const id = me.int_id
             // console.log(id)
-            setFeedbacks( await API.event_feedbacks(token) )
-            console.log(feedbacks)
+            //setFeedbacks( await API.event_feedbacks(token) )
+            const json = await API.getRequests(token)
+            //console.log(feedbacks)
+            setFeedbacks(json)
           }
         })();
         return () => {
@@ -59,9 +63,9 @@ export default function Layout() {
         <Box bgcolor={"background.default"} color={"text.primary"}>
             <Navbar />
             <Box p={5}>
-                <Typography variant={'h4'} textAlign={'center'}>Отзывы</Typography>
+                <Typography variant={'h4'} textAlign={'center'}>Заявки</Typography>
             {feedbacks.map(ev => //<Box key={ev.int_id} sx={gridItem}>
-                            <Card
+                            <Card key={ev.int_id}
                                 raised
                                 sx={{
                                     marginTop: '5px',
@@ -71,20 +75,19 @@ export default function Layout() {
                                     height: '100%'
                                 }}
                             > 
-                                <Typography variant='h5'>{ev.user.fullname} ({ev.event.title})</Typography>
-                                <Rating
-                                    disabled
-                                    name="simple-controlled"
-                                    value={ev.rate}
-                                    onChange={(event, newValue) => {
-                                        setValue(newValue);
-                                    }}
-                                />
-                                <Typography>Отзыв: {ev.text}</Typography>
-                                {/* <Typography>Email: <Link href={`mailto:${ev.mail}`}>{ev.mail}</Link></Typography> */}
-                                <Typography>Email: <Link href={`t.me/${ev.user.mail}`}>{ev.user.mail}</Link></Typography>
-                                <Typography>Telegram: <Link href={`t.me/${ev.tg_username}`}>@{ev.user.tg_username}</Link></Typography>
+                                {/* <Typography variant='h5'>id: {ev.int_id}</Typography> */}
+                                <Typography variant='h5'>Email: <Link href={`mailto:${ev.mail}`}>{ev.mail}</Link></Typography>
+                                <Typography variant='h5'>Запрлата: {ev.salary}</Typography>
+                                <Typography variant='h5'>Процент удаленной работы: {ev.remote_radio}%</Typography>
+                                <Typography variant='h5'>Количество лет работы: {ev.work_year}</Typography>
+                                <Typography variant='h5'>Уровень: {ev.experience_level}</Typography>
+                                <Typography variant='h5'>Вид занятости: {ev.employment_type}</Typography>
+                                <Typography variant='h5'>Должность: {ev.job_title}</Typography>
                                 <br />
+                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                    <img onClick={e => {API.acceptRequest(localStorage.getItem('token'), ev.int_id, false); setFeedbacks(feedbacks.filter(f => f.int_id !== ev.int_id))}} style={{cursor: 'pointer'}} width="40" height="40" src="no.png" alt="no" />
+                                    <img onClick={e => {API.acceptRequest(localStorage.getItem('token'), ev.int_id, true); setFeedbacks(feedbacks.filter(f => f.int_id !== ev.int_id))}} style={{cursor: 'pointer'}} width="40" height="40" src="yes.png" alt="yes" />
+                                </div>
                             </Card>
                         )}
             </Box>

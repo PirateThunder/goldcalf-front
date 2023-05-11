@@ -13,6 +13,7 @@ import * as DATE from "@/helpers/date"
 import { test } from 'node:test';
 import Footer from "@/components/ui/Footer";
 import Link from 'next/link';
+import { CollectionsBookmarkOutlined, ContactSupportOutlined } from '@mui/icons-material';
 
 const themeDict: any = {
     "theme1": {
@@ -61,8 +62,6 @@ export default function Users() {
     const [users, setUsers] = useState<any[]>([])
     const [curUserId, setCurUserId]: any = useState(null)
     //const [users, setUsers] = useState<any[]>([{title: "test", description: "test"}])
-
-    
 
     const [saveText, setSaveText]: any = useState("Подать заявку");
     //const [token, setToken]: any = useState("")
@@ -113,19 +112,19 @@ export default function Users() {
     }
 
     const handleChange = async (event: any) => {
-        //setAge(event.target.value as string);
-        //console.log(event.target)
-        const json = API.user_editrole(localStorage.getItem('token'), event.target.name, event.target.value)
-        console.log("kk")
-        console.log(json)
-        // const me = await API.me(localStorage.getItem('token'));
-        // if (me.roles.includes("admin")) {
-        //     setIsAdmin(true)
-        // }
-
-        location.reload()
-        // setUsers( await API.user_all(localStorage.getItem('token')) )
-        // console.log(users)
+        const _user_int_id = event.target.name
+        const _role = event.target.value
+        const json = await API.user_editrole(localStorage.getItem('token'), _user_int_id, _role)
+        
+        let users2 = []
+        for (let user of users) {
+            users2.push(user)
+            if (parseInt(user.int_id) == parseInt(_user_int_id)) {
+                console.log('lol')
+                users2[users2.length-1].roles[0] = _role
+            }
+        }
+        setUsers(users2)
     };
 
     return (
@@ -138,7 +137,7 @@ export default function Users() {
                         Пользователи
                     </Typography>
                         {users.map(ev => //<Box key={ev.int_id} sx={gridItem}>
-                            <Card
+                            <Card key={ev.int_id}
                                 raised
                                 sx={{
                                     marginTop: '5px',
@@ -148,11 +147,11 @@ export default function Users() {
                                     height: '100%'
                                 }}
                             > 
-                                <Typography variant='h5'>{ev.fullname} ({ev.roles[0] === "sportsman" ? "Спортсмен" : ev.roles[0] === "admin" ? "Администратор" : ev.roles[0] === "representative"  ? "Представитель" : ev.roles[0] === "partner" ? "Партнёр" : ""})</Typography>
-                                <Typography>Email: <Link href={`mailto:${ev.mail}`}>{ev.mail}</Link></Typography>
-                                <Typography>Telegram: <Link href={`t.me/${ev.tg_username}`}>@{ev.tg_username}</Link></Typography>
+                                {/* <Typography variant='h5'>{ev.mail}</Typography> */}
+                                <Typography variant='h5'>Email: <Link href={`mailto:${ev.mail}`}>{ev.mail}</Link></Typography>
+                                {/* <Typography>Telegram: <Link href={`t.me/${ev.tg_username}`}>@{ev.tg_username}</Link></Typography> */}
                                 <br />
-                                { isAdmin ?
+                                { true ?
                                 // <Button data-id={ev.int_id} onClick={e => handleBid(e)} sx={{margin: '2px', height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#574BCC', color: '#FFFFFF', '&:hover': {background: '#FFFFFF', color: '#574BCC'}}} fullWidth variant="contained" color="primary">Редактировать</Button> : <></>
                                     <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-label">Роль</InputLabel>
@@ -163,10 +162,9 @@ export default function Users() {
                                         label="Age"
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value={"sportsman"}>Спортсмен</MenuItem>
-                                        <MenuItem value={"admin"}>Администратор</MenuItem>
-                                        <MenuItem value={"representative"}>Представитель</MenuItem>
-                                        <MenuItem value={"partner"}>Партнёр</MenuItem>
+                                        <MenuItem value={"trainee"}>Стажёр</MenuItem>
+                                        <MenuItem value={"hr"}>HR</MenuItem>
+                                        <MenuItem value={"dev"}>Администратор</MenuItem>
                                     </Select>
                                     <div></div>
                                     </FormControl> : <></>

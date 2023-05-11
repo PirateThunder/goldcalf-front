@@ -66,7 +66,7 @@ const Navbar = () => {
         location.href = "/signin"
       }
       const me = await API.me(token);
-      me.roles[0] = 'hr'
+      //me.roles[0] = 'hr'
       if (me.roles.includes("sportsman")) {
         setIsSportsman(true)
       }
@@ -135,7 +135,10 @@ const Navbar = () => {
             isTrainee ? <a href="/profile"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Резюме</Button></a> : <></>
           }
           {
-            isHR ? <a href="/bids"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Заявки</Button></a> : <></>
+            isHR ? <a href="/requests"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Заявки</Button></a> : <></>
+          }
+          {
+            isDev ? <a href="/users"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Пользователи</Button></a> : <></>
           }
           {/* {
             isAdmin ? <a href="/feedbacks"><Button sx={{height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Отзывы</Button></a> : <></>

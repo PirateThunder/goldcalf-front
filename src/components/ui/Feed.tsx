@@ -43,6 +43,7 @@ const Feed = () => { // FeedEvents
   //const [events, setEvents] = useState<any[]>([{title: "test", description: "test"}])
   const [events, setEvents] = useState<any[]>([])
   const router = useRouter()
+  // cost [mode, set]
 
   // React.useEffect(() => {
   //   const fetchData = async () => {
@@ -54,7 +55,7 @@ const Feed = () => { // FeedEvents
 
   React.useEffect(() => {
     (async () => {
-      const events = await API.event_all(localStorage.getItem('token'));
+      // const events = await API.getRequests(localStorage.getItem('token'));
       console.log(events)
       setEvents(events);
     })();
@@ -80,24 +81,9 @@ const Feed = () => { // FeedEvents
     <Box p={1}>
       <Typography textAlign={'center'} variant='h3'>Мероприятия</Typography>
       <Box display={'flex'} justifyContent={'center'} sx={gridContainer}>
-          {events.map(ev => <Box sx={gridItem}>
-              <Card
-                  raised
-                  sx={{
-                      maxWidth: 330,
-                      margin: "0 auto",
-                      padding: "2em",
-                      height: '100%'
-                  }}
-              > 
-                <Typography>{DATE.dmy(ev.start_dt)} - {DATE.dmy(ev.end_dt)}</Typography>
-                <Typography variant='h5'>{ev.title}</Typography>
-                {/* <Typography>{ev.description}</Typography>  data-id={ev.int_id} onClick={e => handleEvent(e)} */}
-
-                <a href={`/events/${ev.int_id}`}><Button sx={{margin: '2px', height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#574BCC', color: '#FFFFFF', '&:hover': {background: '#FFFFFF', color: '#574BCC'}}} fullWidth variant="contained" color="primary">Подробнее</Button></a>
-                {/* <Button sx={{margin: '2px', height: '30px', width: 'auto', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#F3EFFB', color: '#574BCC', '&:hover': {background: '#574BCC', color: '#F3EFFB'}}} fullWidth variant="contained" color="primary">Пользователи</Button> */}
-              </Card>
-          </Box>)}
+          {/* {
+            events.map(ev => (<p>ev</p>))
+          } */}
       </Box>
     </Box>
   );

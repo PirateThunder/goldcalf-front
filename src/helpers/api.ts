@@ -13,8 +13,10 @@ export async function user_mailExist(email: string) {
 
 export async function reg_sendCode(email: string) {
     try {
+        console.log('work')
         const response = await axios.get(`${API_URL}/reg.send_code`, { params: { to_mail: email } })
         const json = response.data
+        console.log(json)
         return json.is_done
     } catch (err) {
         console.error(err)
@@ -33,6 +35,7 @@ export async function auth_sendCode(email: string) {
 
 export async function reg(email: string, code: string) { //////////
     try {
+        // console.log('work')
         const response = await axios.post(`${API_URL}/reg?`, {mail: email, code: code} )
         const json = response.data
         console.log(json)
@@ -79,6 +82,7 @@ export async function me(token: string | null) {
     }
 }
 
+// export async function me_update(token: string | null, fullname: string, birth_dt: string, tg_username: string, description: string) {
 export async function me_update(token: string | null, fullname: string, birth_dt: string, tg_username: string, description: string) {
     console.log(token)
     if (!token) return
@@ -236,6 +240,110 @@ export async function me_scream(token: string | null, text: string) {
         }})
         const json = response.data
         console.log(response)
+        return json
+    } catch (err) {
+        console.error(err)
+    }
+}
+/////////////////////////
+/////////////////////////
+/////////////////////////
+export async function getRequests(token: string | null) {
+    console.log(token)
+    if (!token) return
+    try {
+        const response = await axios.post(`${API_URL}/get_requests`, null, {headers: {
+            'Authorization': `Bearer ${token}`
+        }})
+        const json = response.data
+        console.log("t", json)
+        return json
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export async function request_exists(token: string | null) {
+    console.log(token)
+    if (!token) return
+    try {
+        const response = await axios.get(`${API_URL}/request.exists`, {headers: {
+            'Authorization': `Bearer ${token}`
+        }})
+        const json = response.data
+        return json.is_exists
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export async function request_my(token: string | null) {
+    console.log(token)
+    if (!token) return
+    try {
+        const response = await axios.get(`${API_URL}/request.my`, {headers: {
+            'Authorization': `Bearer ${token}`
+        }})
+        const json = response.data
+        return json
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export async function sendRequest(token: string | null, mail: string, salary: number, remote_radio: number, work_year: number, experience_level: string, employment_type: string, job_title: string) {
+    console.log(token)
+    if (!token) return
+    try {
+        const jsonReq = {mail, salary, remote_radio, work_year, experience_level, employment_type, job_title}
+        const response = await axios.post(`${API_URL}/send_request`, jsonReq, {headers: {
+            'Authorization': `Bearer ${token}`
+        }})
+        const json = response.data
+        return json
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export async function updateRequest(token: string | null, mail: string, salary: number, remote_radio: number, work_year: number, experience_level: string, employment_type: string, job_title: string) {
+    console.log(token)
+    if (!token) return
+    try {
+        const jsonReq = {mail, salary, remote_radio, work_year, experience_level, employment_type, job_title}
+        const response = await axios.post(`${API_URL}/update_request`, jsonReq, {headers: {
+            'Authorization': `Bearer ${token}`
+        }})
+        const json = response.data
+        return json
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export async function request_deleteMy(token: string | null) {
+    console.log(token)
+    if (!token) return
+    try {
+        const response = await axios.get(`${API_URL}/request.delete_my`, {headers: {
+            'Authorization': `Bearer ${token}`
+        }})
+        const json = response.data
+        return json
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export async function acceptRequest(token: string | null, request_id: number, is_accepted: boolean) {
+    console.log(token)
+    if (!token) return
+    try {
+        const jsonReq = {request_id, is_accepted}
+        const response = await axios.post(`${API_URL}/accept_request`, jsonReq, {headers: {
+            'Authorization': `Bearer ${token}`
+        }})
+        const json = response.data
         return json
     } catch (err) {
         console.error(err)

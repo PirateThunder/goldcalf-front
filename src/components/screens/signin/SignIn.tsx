@@ -16,7 +16,7 @@ export default function SignIn() {
   const [code, setCode] : [string, React.Dispatch<React.SetStateAction<string>>] = React.useState('')
 
   const [emailButtonTitle, setEmailButtonTitle] : any = React.useState('Отправить код')
-  const [signButtonTitle, setSignButtonTitle] : any = React.useState('Подтвердить код: введите 1111')
+  const [signButtonTitle, setSignButtonTitle] : any = React.useState('Подтвердить код (или введите 1111)')
 
   const router = useRouter()
 
@@ -26,8 +26,10 @@ export default function SignIn() {
     const isMailExist = await API.user_mailExist(email)
     console.log(isMailExist)
     if (isMailExist) { // auth
+      console.log('work auth send')
       const isDone = await API.auth_sendCode(email)  
     } else { // reg
+      console.log('work reg send')
       const isDone = await API.reg_sendCode(email)
     }
     setEmailButtonTitle('Отправлено!')
@@ -40,13 +42,23 @@ export default function SignIn() {
     console.log(isMailExist)
     let json
     if (isMailExist) { // auth
+      console.log('work auth valid')
       json = await API.auth(email, code)  
     } else { // reg
+      console.log('work reg valid')
       json = await API.reg(email, code)
     }
     localStorage.setItem('token', json.current_token)
     setSignButtonTitle('Подтверждено!')
-    router.push('/events')
+    if (json.roles[0] == 'trainee') {
+      router.push('/profile')
+    }
+    if (json.roles[0] == 'hr') {
+      router.push('/requests')
+    }
+    if (json.roles[0] == 'dev') {
+      router.push('/users')
+    }
   }
 
   return (
@@ -64,7 +76,8 @@ export default function SignIn() {
                     {/* display={'flex'} justifyContent={'center'} flexDirection={'column'} */}
                     <Grid container spacing={1.5}>
                         <Grid item  md={12} sm={12} xs={12} sx={{display: 'flex', justifyContent: 'center'}}>
-                          <img width={100} src="logo.png" alt="Picture of the author" />
+                          {/* <img width={100} src="logo.png" alt="Picture of the author" /> */}
+                          <Typography variant="h3">Золотой телёнок</Typography>
                         </Grid>
                         <Grid item  md={12} sm={12} xs={12}>
                             <Typography variant="h5" color="initial" align='center'>Вход</Typography>
@@ -101,7 +114,7 @@ export default function SignIn() {
                 </Box>
             </Card>
         </Box>
-        <a style={{textDecoration: 'none'}} href="/app.apk"><Button sx={{display: 'fixed', bottom: '150px', left: 'calc(50% - 150px)', height: '56px', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#009F04', width: '300px', color: 'white', '&:hover': {background: 'white', color: '#009F04'}}} variant="contained" color="primary">Скачать Android-приложение</Button></a>
+        {/* <a style={{textDecoration: 'none'}} href="/app.apk"><Button sx={{display: 'fixed', bottom: '150px', left: 'calc(50% - 150px)', height: '56px', boxShadow: 'none', borderRadius: '15px', textTransform: 'none', background: '#009F04', width: '300px', color: 'white', '&:hover': {background: 'white', color: '#009F04'}}} variant="contained" color="primary">Скачать Android-приложение</Button></a> */}
       </Box>
       {/* <main className={`${styles.main} ${inter.className}`}>
         test
