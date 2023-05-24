@@ -78,7 +78,7 @@ export default function Layout() {
                                 {/* <Typography variant='h5'>id: {ev.int_id}</Typography> */}
                                 <Typography variant='h5'>Email: <Link href={`mailto:${ev.mail}`}>{ev.mail}</Link></Typography>
                                 <Typography variant='h5'>Запрлата: {ev.salary}</Typography>
-                                <Typography variant='h5'>Процент удаленной работы: {ev.remote_radio}%</Typography>
+                                <Typography variant='h5'>C какого года работает: {ev.remote_radio}%</Typography>
                                 <Typography variant='h5'>Количество лет работы: {ev.work_year}</Typography>
                                 <Typography variant='h5'>Уровень: {ev.experience_level}</Typography>
                                 <Typography variant='h5'>Вид занятости: {ev.employment_type}</Typography>
